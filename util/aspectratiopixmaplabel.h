@@ -6,6 +6,7 @@
 #include <QResizeEvent>
 #include <QPaintEvent>
 #include <QMouseEvent>
+#include <QContextMenuEvent>
 #include <QWheelEvent>
 
 class AspectRatioPixmapLabel : public QLabel {
@@ -57,6 +58,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *) override;
     void mouseDoubleClickEvent(QMouseEvent *) override;
     void wheelEvent(QWheelEvent *) override;
+    void contextMenuEvent(QContextMenuEvent *event) override;
 
 signals:
     void clicked();

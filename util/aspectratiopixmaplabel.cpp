@@ -8,6 +8,9 @@
 #include <QPalette>
 #include "globalsetting.h"
 #include "aspectratiopixmaplabel.h"
+#include <QMenu>
+#include <QFileDialog>
+#include <QFile>
 
 AspectRatioPixmapLabel::AspectRatioPixmapLabel(QWidget *parent) : QLabel(parent) {
     this->setMinimumSize(1, 1);
@@ -214,5 +217,24 @@ void AspectRatioPixmapLabel::wheelEvent(QWheelEvent *event) {
     m_scal = qBound(scaleMin, m_scal, scaleMax);
     repaint();
     emit scalChange(m_scal, m_scalPosX, m_scalPosY, point);
+}
+
+void AspectRatioPixmapLabel::contextMenuEvent(QContextMenuEvent *event) {
+    QMenu menu(this);
+    QAction *exportPng = menu.addAction(tr("Export PNG"));
+    QAction *chosen = menu.exec(event->globalPos());
+    if (chosen == exportPng) {
+        QString fileName = QFileDialog::getSaveFileName(this, tr("Export PNG"), QString(), tr("PNG Files (*.png);;All Files (*)"));
+        if (fileName.isEmpty()) return;
+        QPixmap toSave;
+        // prefer original pix if available, otherwise capture current rendering
+        if (!pix.isNull()) toSave = pix;
+        else toSave = currPixmap();
+        // ensure .png extension
+        if (!fileName.endsWith(".png", Qt::CaseInsensitive)) {
+            fileName += ".png";
+        }
+        toSave.save(fileName, "PNG");
+    }
 }
 
