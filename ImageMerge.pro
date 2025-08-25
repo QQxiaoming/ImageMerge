@@ -6,6 +6,7 @@ INCLUDEPATH += \
     util
 
 SOURCES += \
+    imagemerge.cpp \
     main.cpp \
     mainwindow.cpp \
     util/aspectratiopixmaplabel.cpp \
@@ -13,6 +14,7 @@ SOURCES += \
     util/globalsetting.cpp
 
 HEADERS += \
+    imagemerge.h \
     mainwindow.h \
     util/aspectratiopixmaplabel.h \
     util/filedialog.h \
